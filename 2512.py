@@ -2,26 +2,27 @@ import sys
 
 N = int(sys.stdin.readline().rstrip())
 
-requires = map(sys.stdin.readline().rstrip().split(), int)
+requires = list(map(int, sys.stdin.readline().rstrip().split()))
 
 budget = int(sys.stdin.readline().rstrip())
-
 if sum(requires) <= budget:
     print(max(requires))
 else: 
-    upper_bound = max(requires) * 2 
-    money_sum = budget + 1
-    while True:
-        money_sum = 0
+    upper_bound = max(requires)
+    lower_bound = 1
+    while lower_bound <= upper_bound:
+        money = 0
+        middle = (lower_bound + upper_bound) //2
         for require in requires:
-            if require < upper_bound:
-                money_sum += require
-            else: 
-                money_sum += upper_bound 
-                
-        if money_sum > budget: 
-            lower_bound = upper_bound 
-            upper_bound = upper_bound
+            if middle >= require: money += require
+            else:
+                money += middle
+        if money > budget: 
+            upper_bound = middle-1
+        else: 
+            result = middle
+            lower_bound = middle+1
+    print(result)
                 
         
     
